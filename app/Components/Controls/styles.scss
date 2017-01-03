@@ -1,0 +1,15 @@
+.controls__container {
+  position: absolute;
+  top: 0px;
+  height: 100px;
+  width: 100%;
+  background: lighten(black, 10%);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.controls__shapeslist {
+  li {
+    color: white;
+  }
+}

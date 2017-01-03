@@ -1,0 +1,35 @@
+.shapeslist__container {
+  min-width: 200px;
+  max-width: 200px;
+  height: 100%;
+  flex: 1;
+  background: lighten(grey, 40%);
+  color: lighten(black, 0%);
+  overflow: hidden;
+  position: relative;
+  ul {
+    overflow: scroll;
+    height: 100%;
+    li {
+      font-size: 13px;
+      cursor: default;
+      padding: 10px;
+      &:hover {
+        background: lighten(grey, 50%);
+      }
+    }
+  }
+}
+
+.shapescontrols__container {
+  h2 {
+    font-weight: 400;
+    font-size: 13px;
+    margin: 10px;
+    span {
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  }
+}

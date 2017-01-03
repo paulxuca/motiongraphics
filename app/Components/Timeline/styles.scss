@@ -1,0 +1,10 @@
+$black: #000;
+
+.timeline__container {
+  min-height: 60px;
+  max-height: 60px;
+  background-color: lighten($black, 10%);
+  width: 100%;
+  flex: 1;
+  align-self: flex-end;
+}
