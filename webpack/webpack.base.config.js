@@ -24,6 +24,9 @@ module.exports = (config) => ({
       exclude: /node_modules/,
       query: {
         presets: ['es2015', 'stage-0', 'react'],
+        plugins: [
+          config.isDev ? 'react-hot-loader/babel' : '',
+        ],
       },
     }, {
       test: /\.scss$/,

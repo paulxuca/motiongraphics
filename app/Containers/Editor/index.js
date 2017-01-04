@@ -6,7 +6,12 @@ import ShapesList from '../../Components/ShapesList';
 import Player from '../../Components/Player';
 import Controls from '../../Components/Controls';
 
-import { getShapeID, getExistingShapes } from './utils';
+import {
+  getShapeID,
+  getExistingShapes,
+  debounce,
+  getCurrentShape,
+} from './utils';
 import './styles.scss';
 
 class Editor extends Component {
@@ -18,7 +23,15 @@ class Editor extends Component {
   }
 
   componentDidMount() {
+    this.dragFlag = 0;
+    this.timeline = new mojs.Timeline();
+    this.changeShapeProp = debounce(this.changeShapeProp, 200);
+
     window.addEventListener('keydown', this.keyListener);
+    window.addEventListener('mousedown', this.mousedownListener);
+    window.addEventListener('mousemove', this.mousedragListener);
+    window.addEventListener('mouseup', this.mouseupListener);
+    
     window.addEventListener('click', this.mousedownListener);
   }
 
@@ -28,16 +41,25 @@ class Editor extends Component {
     }
   }
 
-  mousedownListener = (e) => {
-    if (CLICKABLE.indexOf(e.target.nodeName) !== -1) {
-      const shapeID = getShapeID(e);
-      this.selectShape(shapeID);
+  mouseupListener = (e) => {
+    if (this.dragFlag === 0) {
+      if (CLICKABLE.indexOf(e.target.nodeName) !== -1) {
+        const shapeID = getShapeID(e);
+        this.selectShape(shapeID);
+      }
+      this.closeControls();
     }
-    this.closeControls();
-  }
+  };
+
+  mousedownListener = (e) => {
+    this.dragFlag = 0;
+  };
+
+  mousedragListener = (e) => {
+    this.dragFlag = 1;
+  };
 
   addShape = (shape, shapename) => {
-    
     const shapeNumber = getExistingShapes(this.state.shapesOnBoard, shape);
     const sID = `${shape}_${shapeNumber}`;
     const sName = `${shapename} ${shapeNumber}`;
@@ -46,9 +68,11 @@ class Editor extends Component {
       shape,
       className: sID,
       isShowStart: true,
-      parent: '#shapes_parent',
+      parent: document.getElementById('shapes_parent'),
     });
 
+
+    this.timeline.append(newShape);
     this.setState({
       shapesOnBoard: this.state.shapesOnBoard.concat({
         name: sName,

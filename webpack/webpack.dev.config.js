@@ -3,6 +3,7 @@ const WebpackDevServer = require('webpack-dev-server');
 
 const config = require('./webpack.base.config')({
   cache: true,
+  isDev: true,
   devtool: 'eval',
   entry: [
     'react-hot-loader/patch',
